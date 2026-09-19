@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6d complex nilmanifold atlas</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css?v=b0d91614">
+<link rel="stylesheet" href="css/atlas.css?v=e0d6a3ca">
+</head>
+<body>
+<header class="top">
+  <h1>6d complex nilmanifold atlas</h1>
+  <p class="sub">
+    A visual exploration of the cohomological structure of 6-dimensional nilmanifolds
+    with left-invariant complex structure.
+  </p>
+  <nav class="tabs">
+    <a data-tab="atlas" href="#/atlas" aria-current="page">Atlas</a>
+    <a data-tab="algebras" href="#/algebras">Lie algebras</a>
+    <a data-tab="about" href="#/about">About</a>
+    <span class="styletoggle">
+      diagrams
+      <button id="style-minimal" type="button" aria-pressed="true">minimal</button>
+      <button id="style-fancy" type="button" aria-pressed="false">fancy</button>
+    </span>
+  </nav>
+</header>
+<main id="main">
+<noscript>
+  <p class="note">This atlas is assembled in the browser and needs JavaScript. The data
+  behind it is also available directly, as <a href="data/nil3.json">data/nil3.json</a>.</p>
+</noscript>
+</main>
+<footer class="site">
+  &copy; 2026 Jonas Stelzig &middot; data and text
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code MIT &middot;
+  the classification it is built on remains its authors' &middot; KaTeX: code MIT,
+  fonts SIL OFL 1.1
+</footer>
+<script src="data/nil3.js?v=6cb5e7c6"></script>
+<script src="vendor/katex/katex.min.js?v=eb153013"></script>
+<script src="vendor/katex/contrib/auto-render.min.js?v=2499f8f8"></script>
+<script src="js/grid.js?v=69cd2d7e"></script>
+<script src="js/main.js?v=0eae5439"></script>
+</body>
+</html>

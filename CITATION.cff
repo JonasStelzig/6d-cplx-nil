@@ -1,0 +1,66 @@
+cff-version: 1.2.0
+title: "6d complex nilmanifold atlas"
+url: "https://jonasstelzig.github.io/6d-cplx-nil/"
+repository-code: "https://github.com/JonasStelzig/6d-cplx-nil"
+date-released: 2026-09-19
+message: "If you use this atlas, please cite it together with the sources it builds on."
+type: dataset
+authors:
+  - family-names: Stelzig
+    given-names: Jonas
+abstract: >-
+  The decomposition of the Chevalley-Eilenberg bicomplex into squares and zigzags for
+  every 6-dimensional nilmanifold with left-invariant complex structure, stratified by
+  zigzag multiplicity vector over the classification of Ceballos-Otal-Ugarte-Villacampa.
+# The atlas is cited as a dataset, so this is the data licence.  The code in the
+# repository is MIT (see LICENSE and the README).  Both are not listed here because the
+# Citation File Format reads a list of licences as alternatives, not as a split.
+# The published classification the atlas reproduces (COUV16, with the corrigendum
+# entries) is not licensed by this project; see "Not licensed by this project" in the
+# README.
+license: CC-BY-4.0
+references:
+  - type: article
+    title: "Invariant complex structures on 6-nilmanifolds: classification, Frolicher spectral sequence and special Hermitian metrics"
+    authors:
+      - family-names: Ceballos
+        given-names: M.
+      - family-names: Otal
+        given-names: A.
+      - family-names: Ugarte
+        given-names: L.
+      - family-names: Villacampa
+        given-names: R.
+    journal: "Journal of Geometric Analysis"
+    volume: 26
+    year: 2016
+    start: 252
+    end: 286
+  - type: article
+    title: "On the structure of double complexes"
+    authors:
+      - family-names: Stelzig
+        given-names: J.
+    journal: "Journal of the London Mathematical Society"
+    volume: 104
+    year: 2021
+    start: 956
+    end: 988
+  - type: article
+    title: "Computation of the multiplicities of zigzags"
+    authors:
+      - family-names: Chen
+        given-names: V.
+    year: 2026
+    notes: "arXiv:2603.20543"
+  - type: article
+    title: "Invariant forms compute the Dolbeault cohomology of complex nilmanifolds"
+    authors:
+      - family-names: Hasegawa
+        given-names: K.
+      - family-names: Sillari
+        given-names: L.
+      - family-names: Tomassini
+        given-names: A.
+    year: 2026
+    notes: "arXiv:2607.26786"

@@ -1,0 +1,319 @@
+/* nil3 — zigzag atlas of 6-dimensional complex nilmanifolds.
+   Self-contained: no external requests, works from file://.  The only webfonts are
+   KaTeX's, vendored under vendor/katex/. */
+
+:root {
+  --bg: #fbfaf8;
+  --panel: #ffffff;
+  --panel-2: #f4f2ee;
+  --ink: #1b1a18;
+  --ink-2: #55514b;
+  --ink-3: #8a847b;
+  --rule: #e2ded7;
+  --rule-2: #cfc9c0;
+  --accent: #7a3e12;
+  --accent-soft: #f0e4d8;
+  --del: #b4531b;
+  --delbar: #1f6a70;
+  --dot: #1b1a18;
+  --warn-bg: #fdf3e0;
+  --warn-ink: #7a4d05;
+  --warn-rule: #e5c67f;
+  --ok-bg: #e9f2e9;
+  --ok-ink: #2c5330;
+  --board: #ffffff;
+  --board-alt: #f2efe9;
+  --grid: #ded9d1;
+  --board-tint: #f7f5f1;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16151a;
+    --panel: #1e1d23;
+    --panel-2: #26242c;
+    --ink: #ece9e3;
+    --ink-2: #b3aea6;
+    --ink-3: #837d75;
+    --rule: #34313a;
+    --rule-2: #47434e;
+    --accent: #e0a877;
+    --accent-soft: #33291f;
+    --del: #e0996a;
+    --delbar: #6fc2c8;
+    --dot: #ece9e3;
+    --board: #1b1a20;
+    --board-alt: #232128;
+    --grid: #3a3742; --board-tint: #1f1e24;
+    --board-tint: #1f1e24;
+    --warn-bg: #2e2513;
+    --warn-ink: #e5c67f;
+    --warn-rule: #6b551f;
+    --ok-bg: #1c2c1e;
+    --ok-ink: #9ccba1;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #16151a; --panel: #1e1d23; --panel-2: #26242c;
+  --ink: #ece9e3; --ink-2: #b3aea6; --ink-3: #837d75;
+  --rule: #34313a; --rule-2: #47434e;
+  --accent: #e0a877; --accent-soft: #33291f;
+  --del: #e0996a; --delbar: #6fc2c8; --dot: #ece9e3;
+  --board: #1b1a20; --board-alt: #232128; --grid: #3a3742;
+  --warn-bg: #2e2513; --warn-ink: #e5c67f; --warn-rule: #6b551f;
+  --ok-bg: #1c2c1e; --ok-ink: #9ccba1;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.55 var(--serif);
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: var(--accent); }
+
+header.top {
+  border-bottom: 1px solid var(--rule);
+  background: var(--panel);
+  padding: 22px 26px 0;
+}
+header.top h1 {
+  margin: 0 0 4px;
+  font-size: 21px;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+header.top .sub {
+  margin: 0 0 16px;
+  color: var(--ink-2);
+  font-size: 14px;
+  max-width: 78ch;
+}
+
+nav.tabs { display: flex; flex-wrap: wrap; gap: 2px; }
+nav.tabs a {
+  display: inline-block;
+  font-size: 14px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: none;
+  color: var(--ink-2);
+  padding: 8px 15px;
+  border-radius: 6px 6px 0 0;
+  text-decoration: none;
+}
+nav.tabs a:hover { color: var(--ink); background: var(--panel-2); }
+nav.tabs a[aria-current="page"] {
+  background: var(--bg);
+  border-color: var(--rule);
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: -1px;
+}
+
+main { padding: 22px 26px 60px; max-width: 1500px; }
+
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  margin-bottom: 18px; font-size: 13px; color: var(--ink-2);
+}
+.toolbar input[type="search"], .toolbar select {
+  font: inherit; font-size: 13px; padding: 5px 9px;
+  border: 1px solid var(--rule-2); border-radius: 5px;
+  background: var(--panel); color: var(--ink);
+}
+.count { color: var(--ink-3); }
+
+/* ---- cards ---- */
+.cards {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+}
+/* The atlas shows a card's whole multiplicity vector, so cards are full width and
+   stack one per row rather than being truncated to fit a column. */
+.cards.wide { grid-template-columns: 1fr; }
+.cards.wide .gallery { gap: 7px; }
+.card {
+  border: 1px solid var(--rule); border-radius: 9px;
+  background: var(--panel); padding: 14px 15px;
+  cursor: pointer; text-align: left; font: inherit; color: inherit;
+  display: flex; flex-direction: column; gap: 9px;
+}
+a.card { text-decoration: none; }
+.card:hover { border-color: var(--rule-2); }
+.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.card .meta { color: var(--ink-2); font-size: 12.5px; }
+.card .algebras { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+
+.badges { display: flex; flex-wrap: wrap; gap: 5px; }
+.badge {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.02em;
+  padding: 2px 7px; border-radius: 20px;
+  background: var(--panel-2); color: var(--ink-2); border: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.badge.accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.badge.warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-rule); }
+.badge.ok { background: var(--ok-bg); color: var(--ok-ink); border-color: transparent; }
+
+/* ---- zigzag gallery ---- */
+.gallery { display: flex; flex-wrap: wrap; gap: 9px; }
+.zzcard {
+  border: 1px solid var(--rule); border-radius: 7px; background: var(--panel-2);
+  padding: 5px 6px 3px; text-align: center; position: relative;
+}
+.zzcard .mult {
+  font-family: var(--mono); font-size: 11px; color: var(--ink-2);
+  display: block; margin-top: 1px;
+}
+.zzcard .zid { font-family: var(--mono); font-size: 9.5px; color: var(--ink-3); }
+.zzcard .orbsz { font-family: var(--mono); font-size: 9px; color: var(--ink-3); }
+.zzcard.even { border-color: var(--del); }
+
+svg.zz { display: block; width: 108px; height: 108px; }
+svg.zz.zz-large { width: 168px; height: 168px; }
+.zz-box { fill: var(--board); stroke: var(--rule); stroke-width: 0.4; }
+.zz-box-alt { fill: var(--board-alt); }
+.zz-box-plain { fill: none; stroke: var(--grid); stroke-width: 0.4; }
+svg.zz-tint .zz-box { fill: var(--board-tint); stroke: var(--grid); stroke-width: 0.4; }
+svg.zz-nogrid .zz-box { stroke: none; fill: none; }
+.zz-axis { font-family: var(--mono); font-size: 6.5px; fill: var(--ink-3); }
+.zz-dot { fill: var(--dot); }
+.zz-dot-sq { fill: var(--ink-3); }
+.zz-arrow { stroke-width: 1.4; fill: none; }
+.zz-del { stroke: var(--del); }
+.zz-delbar { stroke: var(--delbar); }
+.zz-head-d { fill: var(--del); }
+.zz-head-db { fill: var(--delbar); }
+.zz-mono { stroke: var(--ink-2); stroke-width: 1.2; }
+
+/* the little preview of the orbit being filtered on */
+.orbprev { display: inline-flex; align-items: center; }
+svg.zz.zz-inline { width: 40px; height: 40px; }
+
+/* style toggle in the header */
+.styletoggle { margin-left: auto; display: flex; align-items: center; gap: 7px;
+  font-size: 12.5px; color: var(--ink-2); }
+.styletoggle button {
+  font: inherit; font-size: 12px; font-family: var(--mono);
+  border: 1px solid var(--rule-2); background: var(--panel); color: var(--ink-2);
+  border-radius: 20px; padding: 3px 11px; cursor: pointer;
+}
+.styletoggle button[aria-pressed="true"] {
+  background: var(--accent-soft); color: var(--accent); border-color: transparent;
+  font-weight: 600;
+}
+nav.tabs { align-items: flex-end; }
+
+/* ---- tables ---- */
+table.pq {
+  border-collapse: collapse; font-family: var(--mono); font-size: 12px;
+  margin: 4px 0 2px;
+}
+table.pq th, table.pq td {
+  border: 1px solid var(--rule); padding: 3px 8px; text-align: right; min-width: 30px;
+}
+table.pq th { background: var(--panel-2); color: var(--ink-3); font-weight: 500; }
+table.pq td.zero { color: var(--ink-3); }
+table.pq.row th, table.pq.row td { min-width: 26px; text-align: center; }
+
+/* ---- detail panel ---- */
+.detail { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 26px; }
+/* minmax(0, 1fr), not 1fr: a plain 1fr track grows to its widest child, and a line of
+   typeset maths cannot wrap the way text can, so it would widen the whole page. */
+@media (max-width: 1000px) { .detail { grid-template-columns: minmax(0, 1fr); } }
+.detail h2 { margin: 0 0 3px; font-size: 18px; }
+.detail h4 {
+  margin: 20px 0 6px; font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--ink-3); font-weight: 600;
+}
+.eqn {
+  font-family: var(--mono); font-size: 12.5px; background: var(--panel-2);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 9px 11px;
+  overflow-x: auto; white-space: pre-wrap; color: var(--ink);
+}
+.back {
+  display: inline-block; font-size: 13px; color: var(--accent);
+  text-decoration: none; margin-bottom: 12px;
+}
+.back:hover { text-decoration: underline; }
+.locus {
+  border: 1px solid var(--rule); border-radius: 7px; padding: 10px 12px;
+  margin-bottom: 9px; background: var(--panel);
+}
+.locus .who { font-weight: 600; font-size: 13.5px; }
+a.who { display: inline-block; color: var(--ink); text-decoration: none; }
+a.who:hover { color: var(--accent); text-decoration: underline; }
+/* the stratum a URL points at */
+.locus.target { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.locus-links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 7px;
+  font-size: 13px; }
+.locus-links a { text-decoration: none; }
+.locus-links a:hover { text-decoration: underline; }
+.locus-links .stratum-link { color: var(--ink-3); }
+
+/* ---- permalinks ---- */
+.permalink { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+  margin: 2px 0 12px; font-size: 12px; color: var(--ink-3); }
+.permalink-url {
+  flex: 1 1 22ch; min-width: 0; max-width: 60ch;
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink-2);
+  background: var(--panel-2); border: 1px solid var(--rule); border-radius: 5px;
+  padding: 3px 7px;
+}
+.permalink-copy {
+  font: inherit; font-family: var(--mono); font-size: 11.5px; cursor: pointer;
+  border: 1px solid var(--rule-2); background: var(--panel); color: var(--ink-2);
+  border-radius: 20px; padding: 2px 10px;
+}
+.permalink-status { color: var(--ok-ink); }
+.permalink-note { flex-basis: 100%; font-style: italic; }
+
+/* ---- typeset mathematics (KaTeX) ---- */
+/* KaTeX output must not inherit the headings' small caps or letter-spacing, which
+   would silently turn h^{p,q} into H^{P,Q}. */
+.katex { text-transform: none; letter-spacing: normal; font-weight: normal; }
+.eqn.math { white-space: normal; font-family: inherit; font-size: 14px; }
+.eqn .katex-display { margin: 0; text-align: left; }
+.eqn .katex-display > .katex { text-align: left; }
+.note {
+  background: var(--warn-bg); border: 1px solid var(--warn-rule);
+  color: var(--warn-ink); border-radius: 7px; padding: 10px 13px;
+  font-size: 13px; margin: 14px 0;
+}
+.prose { max-width: 78ch; color: var(--ink-2); font-size: 14.5px; }
+.prose h3 { color: var(--ink); font-size: 15px; margin: 22px 0 6px; }
+/* the caveat at the top of the About text */
+.prose .note.caveat { margin: 0 0 8px; font-size: 14px; }
+.prose .note.caveat p { margin: 0; }
+.prose code { font-family: var(--mono); font-size: 12.5px; }
+.prose sup.fn { font-size: 10px; color: var(--accent); padding-left: 1px; }
+.prose ol.footnotes, .prose ol.refs {
+  font-size: 13px; color: var(--ink-2); padding-left: 20px; margin: 8px 0 4px;
+}
+.prose ol.footnotes li, .prose ol.refs li { margin-bottom: 4px; }
+.prose ol.refs { list-style: none; padding-left: 0; }
+.prose ol.refs li { padding-left: 0; }
+.legend {
+  display: flex; gap: 18px; font-size: 12px; color: var(--ink-2);
+  align-items: center; margin: 6px 0 14px;
+}
+.legend .swatch { display: inline-block; width: 15px; height: 2px; vertical-align: middle; }
+
+footer.site {
+  border-top: 1px solid var(--rule); padding: 14px 26px 22px;
+  font-size: 12px; color: var(--ink-3);
+}
+
+@media (max-width: 600px) {
+  header.top, main, footer.site { padding-left: 16px; padding-right: 16px; }
+  .styletoggle { margin-left: 0; padding: 6px 0; }
+}
